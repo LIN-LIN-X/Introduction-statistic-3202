@@ -1,0 +1,177 @@
+---
+title: "lab10"
+author: "Linlin Xia"
+date: "4/7/2020"
+output: html_document
+---
+
+Problem 1
+a)
+```{r}
+mu <- 85
+sigma <- 6
+n <- 10
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  xbar <- mean(sample)
+  reject[i] <- xbar<83
+}
+
+mean(reject)
+```
+
+b)
+```{r}
+mu <- 85
+sigma <- 6
+n <- 10
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  xbar <- mean(sample)
+  reject[i] <- xbar<81.879
+}
+
+mean(reject)
+```
+
+c)
+```{r}
+n <- 10
+mu <- 85
+sigma <- 6
+
+NMC <- 1000
+xbar <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  platelets <- rnorm(n, mu, sigma)
+  xbar[i] <- mean(platelets)
+}
+
+hist(xbar)
+mean <- qnorm(0.01)*sigma/sqrt(n)+mu
+print(mean)
+```
+The weigt of newborn cutoff should be 80.58
+
+test)
+```{r}
+mu <- 85
+sigma <- 6
+n <- 10
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  xbar <- mean(sample)
+  reject[i] <- xbar<80.58
+}
+
+mean(reject)
+```
+
+d)
+```{r}
+mu <- 80
+sigma <- 6
+n <- 10
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  xbar <- mean(sample)
+  reject[i] <- xbar>81.879
+}
+
+mean(reject)
+```
+
+e)
+```{r}
+mu <- 80
+sigma <- 6
+n <- 20
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  xbar <- mean(sample)
+  reject[i] <- xbar>81.879
+}
+
+mean(reject)
+```
+When sample size becomes larger, the type-II error becomes smaller.
+
+Problem 2
+a)
+```{r}
+mu <- 6.5
+sigma <- 0.25
+n <- 20
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  s2 <- var(sample)
+  reject[i] <- s2>0.08
+}
+
+mean(reject)
+```
+By using Monte Carlo simulatoin, we can find that  $\sigma^2$ = 0.0625 $hours^2$ is not a good choice for Hypothesis, because the mean of reject is 0.187.
+
+b)
+```{r}
+mu <- 6.5
+sigma <- 0.25
+n <- 20
+alpha <- 0.995
+
+NMC <- 1000
+s2 <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  temp <- rnorm(n, mu, sigma)
+  s2[i] <- var(temp)
+}
+
+hist(s2)
+error <- sigma^2*qchisq(alpha,19)/(n-1)
+print(error)
+```
+By trial and error, if the $\sigma^2$ is larger than 0.127 $hours^2$, it will reject the Hypothesis null.
+
+test)
+```{r}
+mu <- 6.5
+sigma <- 0.25
+n <- 20
+
+NMC <- 1000
+reject <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, sigma)
+  s2 <- var(sample)
+  reject[i] <- s2>0.127
+}
+
+mean(reject)
+```

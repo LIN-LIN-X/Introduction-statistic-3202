@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+Part a)
+```{r}
+NMC <- 1000
+captured <- rep(NA, NMC)
+
+n <-  50
+lambda <- 3
+alpha <- 0.4
+zstar <- qnorm(alpha/2, 0, 1)
+  
+for(i in 1:NMC){
+  x <- rpois(n, lambda)
+  xbar <- sum(x)/n
+  
+  LL <- xbar + zstar*sd(x)/sqrt(n)
+  UL <- xbar - zstar*sd(x)/sqrt(n)
+  
+  captured[i] <- (LL < lambda) & (UL > lambda)
+}
+
+mean(captured)
+```
+result is 0.592, which is close to (1-.4)
+
+Part b)
+```{r}
+NMC <- 1000
+captured <- rep(NA, NMC)
+
+n <-  20
+lambda <- 3
+alpha <- 0.005
+zstar <- qnorm(alpha/2, 0, 1)
+  
+for(i in 1:NMC){
+  x <- rpois(n, lambda)
+  xbar <- sum(x)/n
+  
+  LL <- xbar + zstar*sd(x)/sqrt(n)
+  UL <- xbar - zstar*sd(x)/sqrt(n)
+  
+  captured[i] <- (LL < lambda) & (UL > lambda)
+}
+
+mean(captured)
+```
+result is 0.966667, which is not close to 1-.005
+
+```{r}
+NMC <- 6
+captured <- rep(NA, NMC)
+
+n <-  20
+lambda <- 3
+alpha <- 0.4
+zstar <- qnorm(alpha/2, 0, 1)
+  
+for(i in 1:NMC){
+  x <- rpois(n, lambda)
+  xbar <- sum(x)/n
+  
+  LL <- xbar + zstar*sd(x)/sqrt(n)
+  UL <- xbar - zstar*sd(x)/sqrt(n)
+  
+  captured[i] <- (LL < lambda) & (UL > lambda)
+}
+
+mean(captured)
+```
+result is 1, which is not close to 1-.4
+
+```{r}
+NMC <- 10000
+captured <- rep(NA, NMC)
+
+n <-  20
+lambda <- 60
+alpha <- 0.4
+zstar <- qnorm(alpha/2, 0, 1)
+  
+for(i in 1:NMC){
+  x <- rpois(n, lambda)
+  xbar <- sum(x)/n
+  
+  LL <- xbar + zstar*sd(x)/sqrt(n)
+  UL <- xbar - zstar*sd(x)/sqrt(n)
+  
+  captured[i] <- (LL < lambda) & (UL > lambda)
+}
+
+mean(captured)
+```
+result is 0.5876, which is close to 1-.4
+
+part c)
+
+n should be as much as possible. $\alpha$ should be not too small or too large，$\lambda$ is parameter, so we don't need care about number of it.

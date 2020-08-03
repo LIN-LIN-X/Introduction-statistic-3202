@@ -1,0 +1,66 @@
+---
+title: "lab5"
+author: "Linlin Xia"
+date: "2/17/2020"
+output: html_document
+---
+Problem 1
+part a)
+```{r}
+s2 <- function(dataset){
+  n <- length(dataset)
+  sample_mean <- mean(dataset)
+  value <- sum((dataset-sample_mean)^2)/(n-1)
+  return(value)
+}
+```
+
+```{r}
+x <- rnorm(500,4,5)
+s2_x <- s2(x)
+print(s2_x)
+```
+
+part b)
+```{r}
+density_N <- function(x){
+  value <- exp(-(x-5.6)^2/32)/(sqrt(2*pi)*4)
+    return(value)
+} 
+```
+
+```{r}
+print(density_N(4))
+```
+
+Problem 2
+part b)
+```{r}
+likelihood_N <- function(obs){
+  n <- length(obs)
+  value <- (2*pi*16)^(-n/2)*exp(-1/32*sum((obs-3.8)^2))
+  return(value)
+}
+```
+
+```{r}
+x <- c(4,2.2,5.5)
+l_x <- likelihood_N(x)
+print(l_x)
+```
+
+part c)
+```{r}
+mu_domain <- matrix(seq(from=0, to=8, by=.1), ncol=1) 
+L <- apply(mu_domain, 1, likelihood_N)
+
+plot(mu_domain,L,type = "l")
+which.max(L)
+mu_domain[40]
+```
+
+Problem 3
+```{r}
+optim(0, likelihood_N, method = "Brent", lower = 0, upper =8, control = list(fnscale=-1))
+```
+We can find that the maximum likelihood is 0.0997, at this time we get the result 3.8

@@ -1,0 +1,70 @@
+---
+title: "Stat 3202 Lab 2"
+author: "Linlin Xia"
+date: "1/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Part a)
+```{r}
+NMC <- 10000
+x_mean <- rep(NA, NMC)
+x_var <- rep(NA, NMC)
+
+for (i in 1:NMC) {
+  temp_c <- rpois(10,2)
+  temp_mean <- mean(temp_c)
+  x_mean[i] <- temp_mean
+  temp_var <- var(temp_c)
+  x_var[i] <- temp_var
+}
+
+hist(x_mean)
+hist(x_var)
+```
+
+Part b)
+```{r}
+print(mean(x_mean))
+print(mean(x_var))
+```
+By counting the mean of both $\bar X$ and $s^2$ , we can find that they both close to the truth 2. So, using $\bar X$ is better because it shows normal distribution.
+
+Part c)
+```{r}
+  running_MSE1<- var(x_mean)+(mean(x_mean)-2)^2
+  running_MSE2 <- var(x_var)+(mean(x_var)-2)^2
+
+print(running_MSE1)
+print(running_MSE2)
+```
+It is better to choose $\hat{\lambda}$  = $\bar{X}$, beacuse the MSE of $\hat{\lambda}$ = $s^2$ is about five times of $\bar{X}$.
+
+Part d)
+I perfer $\hat{\lambda}$ = $\bar{X}$, because it has lower Mean squared error.
+
+Part e)
+```{r}
+running_mean <- rep(NA, NMC)
+running_var <- rep(NA, NMC)
+
+running_temp <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  running_temp[i] <- rpois(1,2)
+  running_mean[i] <- sum(running_temp[1:i])/i
+  running_var[i] <- var(running_temp[1:i])
+}
+
+plot(running_mean)
+abline(h=2, col="red")
+plot(running_var)
+abline(h=2, col="red")
+```
+
+They are both converge to two as n increases.

@@ -1,0 +1,48 @@
+---
+title: "Stat 3202 Lab 1"
+author: "Linlin Xia"
+date: "1/13/2020"
+output: html_document
+---
+
+My name is Linlin Xia, and my major is Data Analytics.
+
+```{r}
+ranks <- 1:10
+print(ranks) 
+```
+
+```{r}
+x <- pnorm(12.2, 10, 2)
+y<-1-x
+print(y)
+```
+
+```{r}
+y <- rpois(16,7)
+y.mean <- mean(y)
+print(y.mean)
+y.variance <- var(y)
+print(y.variance)
+```
+
+```{r}
+goose <- rgamma(25,20,2)
+hist(goose)
+```
+
+```{r}
+NMC <- 50000
+
+xbar_storage <- rep(NA, NMC)
+
+for (i in 1:NMC) {
+  temp_eggs <- rgamma(25,20,2)
+  temp_mean <- mean(temp_eggs)
+  xbar_storage[i] <- temp_mean
+}
+
+hist(xbar_storage)
+```
+
+For the problem 5a, my sample size is 25 and assume x as Gamma(a = 20, B = 2). Then, we can get a randomly group of number as the weight of these eggs. And, for the 5b, I set the normal Monte Carlo number as 50000, which means I can generate 50000 times of x at 5a. Then, we need to count the mean of each x. When I saw the distribution graph, I can found that this graph approximates a normal distribution. What is more, the Central Limit Theorem is important because the mean values of a large number of independent random variables converge to the distribution after proper normalization.

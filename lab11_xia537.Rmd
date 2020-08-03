@@ -1,0 +1,134 @@
+---
+title: "lab11"
+author: "Linlin Xia"
+date: "4/11/2020"
+output: html_document
+---
+
+Problem 1
+
+1a)
+$H_0$ : $\mu$ = 11.2 days. 
+$H_a$ : $\mu$ < 11.2 days.
+
+1b)
+```{r}
+n <- 36
+mu <- 11.2
+alpha <- 0.05
+theta <- 1
+
+NMC <- 1000
+p <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu, theta)
+  zobs <- (mean(sample)- mu)/sqrt(theta/36)
+  p[i] <- pnorm(zobs, 0, 1, lower.tail = TRUE)
+}
+
+hist(p, xlab="simulated p-value", main ="Sampling Distribution of p value")  
+```
+
+1c)
+The distribution of p-value is a flat distribution from 0 to 1. It does suprised me that I thought it should be normalily distribution. The shape reflect that p-values should larger than alpha in most of situation. In other words, it is less possible to reject the type_I error.
+
+1d)
+```{r}
+mean(p<alpha)
+```
+
+Problem 2
+
+2a)
+The power will be increase, and the type II error will decrease. The intuition is when the difference between the null hypothesis and truth increases, it is easier to detect the false null hypothesis.
+
+2b)
+```{r}
+n <- 36
+mu <- 11.2
+alpha <- 0.05
+theta <- 1
+
+NMC <- 1000
+p <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, 10.8, theta)
+  zobs <- (mean(sample)- mu)/sqrt(theta/36)
+  p[i] <- pnorm(zobs, 0, 1, lower.tail = TRUE)
+}
+
+hist(p, xlab="simulated p-value", main ="Sampling Distribution of p value")  
+```
+
+2c)
+The p is easier to below than alpha, because it is more frequency for p between 0 to 0.2. So, it is eaier for us to conclude that $H_0$ is false. 
+
+2d)
+```{r}
+n <- 36
+mu_H0 <- 11.2
+mu_reality <- 10.8
+alpha <- 0.05
+theta <- 1
+
+NMC<- 1000
+p <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu_reality, theta)
+  zobs <- (mean(sample)- mu_H0)/sqrt(theta/36)
+  p[i] <- pnorm(zobs, 0, 1, lower.tail = TRUE)
+}
+
+mean(p > alpha)
+```
+
+2e)
+```{r}
+mean(p < alpha)
+```
+
+Problem 3
+
+```{r}
+n <- 64
+mu_H0 <- 11.2
+mu_reality <- 10.8
+alpha <- 0.05
+theta <- 1
+
+NMC<- 1000
+p <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu_reality, theta)
+  zobs <- (mean(sample)- mu_H0)/sqrt(theta/36)
+  p[i] <- pnorm(zobs, 0, 1, lower.tail = TRUE)
+}
+
+mean(p < alpha) 
+```
+When sample size increases, power will increase.
+
+Problem 4
+```{r}
+n <- 36
+mu_H0 <- 11.2
+mu_reality <- 10.8
+alpha <- 0.05
+theta <- 0.8
+
+NMC<- 1000
+p <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  sample <- rnorm(n, mu_reality, theta)
+  zobs <- (mean(sample)- mu_H0)/sqrt(theta/36)
+  p[i] <- pnorm(zobs, 0, 1, lower.tail = TRUE)
+}
+
+mean(p < alpha)
+```
+When variance decreases, power will increase.

@@ -1,0 +1,134 @@
+---
+title: "lab4_xia.537"
+author: "Linlin Xia"
+date: "2/10/2020"
+output: html_document
+---
+Problem 1
+
+a)
+Central Limit Theorem: if you have a polulation with mean $\mu$
+and standard deviation $\sigma$ and take sufficently larger ramdon variables from the population with replacement, then the distribution of the sample will br approximatley normally distributed. 
+In other words, if there are many y from 1 to n.
+$y_1, y_2 ..., y_n$ ${\sim}$ f(y). y${\sim}$ N( $\mu$, $\frac{\sigma^2}{n}$).
+The data looks like the middle part is the higest part, and decrease from the middle.The expectation and the mean are the same, which is $\mu$
+
+b)
+```{r}
+number <- 34
+C <- rep(NA, number)
+
+for(i in 1:number){
+  C[i] = rpois(1, 2.8)
+}
+
+hist(C, main="Histogram of average cards",xlab = "avg. cards")
+```
+
+c)
+```{r}
+mean(C)
+var(C)
+```
+E(C) should be 2.8, and V(C) also should be 2.8.
+Based on this scenario, mean is 2.7, variance is 2.09.
+
+d)
+```{r}
+NMC <- 600
+Cset <- rep(NA, number)
+
+for(i in 1:NMC){
+  c = rpois(34, 2.8)
+  Cset[i] = mean(c)
+}
+```
+
+e)
+```{r}
+mean(Cset)
+var(Cset)
+```
+Based on this scenario, E($\bar{C}$) is 2.800931, V($\bar{C}$) is 0.083
+
+f)
+```{r}
+hist(Cset, main="Histogram of average cards over 500 MLS seasons",xlab = "avg. cards")
+```
+
+Problem 2
+```{r}
+NMC <- 10000
+Cset <- rep(NA, number)
+
+for(i in 1:NMC){
+  c = rpois(34, 2.8)
+  Cset[i] = mean(c)
+}
+
+hist(Cset, main="Histogram of average cards of 10,000 MLS seasons",xlab = "avg. cards")
+mean(Cset)
+var(Cset)
+```
+These two distributions are similar, the higest parts are both in the middle, and the lowest parts at the both sides. But with the number of set become larger, it more like the normal distribution.
+
+Problem 3
+```{r}
+NMC <- 10000
+Cset <- rep(NA, number)
+
+for(i in 1:NMC){
+  c = rpois(80, 2.8)
+  Cset[i] = mean(c)
+}
+
+hist(Cset, main="Histogram of average cards of 10,000 MLS seasons",xlab = "avg. cards")
+mean(Cset)
+var(Cset)
+```
+It reduce the variance, and the distribution looks more like the Normal distribution.
+
+
+Problem 4
+b)
+```{r}
+number <- 28
+C <- rep(NA, number)
+
+for(i in 1:number){
+  C[i] = runif(1,18,40)
+}
+
+hist(C, main = "Age of 28 players", xlab = "ages")
+```
+
+c)
+```{r}
+mean(C)
+var(C)
+```
+E(C) shuold be 29, and V(C) should be 40.3.
+Based on this scenario, E(C) is 29.2, and V(C) is 33.4.
+
+d)
+```{r}
+NMC <- 1000
+Cset <- rep(NA, number)
+
+for(i in 1:NMC){
+  c = runif(28,18,40)
+  Cset[i] = mean(c)
+}
+```
+
+e)
+```{r}
+mean(Cset)
+var(Cset)
+```
+Based on this scenario, E($\bar{C}$) is 28.90931, V($\bar{C}$) is 1.44. By contrast, this scenaria's variance become smaller.
+
+f)
+```{r}
+hist(Cset, main = "ages of players", xlab = "ages")
+```

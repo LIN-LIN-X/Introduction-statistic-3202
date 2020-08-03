@@ -1,0 +1,43 @@
+---
+title: "lab3_xia537"
+author: "Linlin Xia"
+date: "2/3/2020"
+output: html_document
+---
+install.packages("VGAM")
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(VGAM)
+```
+
+```{r}
+NMC = 10000
+running_samp <- rep(NA,NMC)
+running_mean <- rep(NA,NMC)
+
+for(i in 1:NMC){
+ running_samp[i] = rrayleigh(1)
+ running_mean[i] <- sum(running_samp[1:i]^2)/(i*2)
+}
+
+plot(running_mean,type="l")
+abline(h=1,col="red")
+```
+# After we get the picture from the above code, we can find that the $\hat{\theta}$ is close to $\theta$, when the sample size is large enough. Also, the variance become smaller and smaller. Therefore, we can get the conclusion that $\hat{\theta}$ is consistency to $\theta$.
+
+
+```{r}
+NMC = 10000
+sampleMean <- rep(NA,NMC)
+
+for(i in 1:NMC){
+  sample <- rrayleigh(10,1)
+  sampleMean[i] <- mean(sample)
+}
+
+hist(sampleMean)
+```

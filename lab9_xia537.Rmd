@@ -1,0 +1,74 @@
+---
+title: "Lab9"
+author: "Linlin Xia"
+date: "3/30/2020"
+output: html_document
+---
+
+Problem 1
+a)
+```{r}
+data <- read.csv("/Users/linlinxia/STAT 3202/unemployment.csv")
+
+month = data$MONTH
+rate = data$COLU139UR
+date = data$DATE
+
+plot(month,rate, main = 'time series', xlab = 'month', ylab = 'unemployment rate')
+
+hist(rate, main = 'unemployment rates overall',xlab = 'unemployment rate', ylab = 'count')
+```
+b)
+The unemployment was up and down from 3 to 7. However, from the month 200 ti 250, it was increased dramatically. And, the rate decreased again.
+
+c)
+We can find that it is a Right-skewed distribution, which shows that it is more common for the rate at 3 to 5.
+
+
+Problem 2
+a)
+```{r}
+B <- 5000
+mean_storage <- rep(NA,B)
+variance_storage <- rep(NA,B)
+median_storage <- rep(NA,B)
+percentile_storage <- rep(NA,B)
+n <- nrow(data)
+
+for(i in 1:B){
+  temp_sample <- sample(data$COLU139UR, size=n, replace = TRUE)
+  mean_storage[i] <- mean(temp_sample)
+  variance_storage[i] <- var(temp_sample)
+  median_storage[i] <- quantile(temp_sample,0.5)
+  percentile_storage[i] <- quantile(temp_sample,0.99)
+}
+
+#b
+hist(mean_storage, main="mean distribution",xlab = 'mean number')
+hist(variance_storage,main="variance distribution",xlab = 'variance number')
+hist(median_storage,main="median distribution",xlab = 'median number')
+hist(percentile_storage,main="99th percentile distribution",xlab = '99th percentile number')
+#The mean distribution and variance distribution is likely to Normal distribution. The median distribution is 
+# more foucs from 4.4 to 4.8, and similar to the normal distribution. The 99th percentile is more focus from 9.4 to 9.6, which is a Left-skewed.
+
+#c
+quantile(mean_storage, c(0.025,0.975))
+quantile(variance_storage, c(0.025,0.975))
+quantile(sqrt(variance_storage), c(0.025,0.975)) # sd is equals root of variance
+quantile(median_storage, c(0.025,0.975))
+quantile(percentile_storage, c(0.025,0.975))
+```
+c) For the true mean of the sampling distribution, we create a 95 % CI, which should from 4.75 to 5.07.
+For the true variance of the sampling distribution, we create a 95 % CI, which should from 1.98 to 2.83.
+For the true sd of the sampling distribution, we create a 95 % CI, which should from 1.4 to 1.68.
+For the true median of the sampling distribution, we create a 95 % CI, which should from 4.4 to 4.8.
+For the the .99th percentile of the sampling distribution, we create a 95 % CI, which should from 9.1 to 9.6.
+
+
+d) The number of true mean of sampling distribution might move to right on average. Because if there are many data over 10, the mean of sampling will increase overall. 
+
+The number of true variance of sampling distribution might also increase. Because if there are many data over 10, the variance will change and becomes larger than before.
+
+The number of true median of sampling distribution might move to right on average. Because if there are many data over 10, the median will be more close to the 10 than before. 
+
+The number of the 99th percentile of sampling distribution might move to right on average. Because if there are many data over 10, the 99th percentile number will also increase on average. 

@@ -1,0 +1,110 @@
+---
+title: "Lab 8"
+author: "Linlin Xia"
+date: "3/23/2020"
+output: html_document
+---
+
+Problem 1
+```{r}
+NMC <- 1000
+captured <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  a <- rnorm(30, 20, 3)
+  b <- rnorm(30, 25, 3)
+  
+  varA <- var(a)
+  varB <- var(b)
+  abar <- mean(a)
+  bbar <- mean(b)
+  
+  # compute the pooled variance estimate from samples
+  s2_pooled <- (29*varA+29*varB)/58
+
+  LL <- (abar-bbar) + qt(0.025,df=58)*sqrt(s2_pooled/30+s2_pooled/30)
+  UL <- (abar-bbar) + qt(0.975,df=58)*sqrt(s2_pooled/30+s2_pooled/30)
+  
+  captured[i] <- (LL <  -5) & (UL > -5)#boolean
+}
+
+mean(captured)
+```
+
+
+Problem 2
+```{r}
+NMC <- 1000
+n <- 10
+mu <- 20
+sigma <- 3
+alpha <-0.05
+width <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  x <- rnorm(n, mu, sigma)
+  s2 <- var(x)
+  xbar <- mean(x)
+  LL <- xbar + qt(alpha/2, n-1)*sqrt(s2/n)
+  UL <- xbar + qt(1-alpha/2, n-1)*sqrt(s2/n)
+  width[i] <- abs(UL-LL)
+}
+
+mean(width)
+
+# change observations
+n<-50
+for(i in 1:NMC){
+  x <- rnorm(n, mu, sigma)
+  s2 <- var(x)
+  xbar <- mean(x)
+  LL <- xbar + qt(alpha/2, n-1)*sqrt(s2/n)
+  UL <- xbar + qt(1-alpha/2, n-1)*sqrt(s2/n)
+  width[i] <- abs(UL-LL)
+}
+
+mean(width)
+# when the observations'size becomes bigger, the width of interval becomes narrower.
+
+# change variance
+sigma <- 12
+for(i in 1:NMC){
+  x <- rnorm(n, mu, sigma)
+  s2 <- var(x)
+  xbar <- mean(x)
+  LL <- xbar + qt(alpha/2, n-1)*sqrt(s2/n)
+  UL <- xbar + qt(1-alpha/2, n-1)*sqrt(s2/n)
+  width[i] <- abs(UL-LL)
+}
+
+mean(width)
+# when the variance becomes bigger, the width of interval becomes wider.
+
+# change alpha
+alpha <- 0.0001
+for(i in 1:NMC){
+  x <- rnorm(n, mu, sigma)
+  s2 <- var(x)
+  xbar <- mean(x)
+  LL <- xbar + qt(alpha/2, n-1)*sqrt(s2/n)
+  UL <- xbar + qt(1-alpha/2, n-1)*sqrt(s2/n)
+  width[i] <- abs(UL-LL)
+}
+
+mean(width)
+# when the alpha becomes smaller, the width of interval becomes wider.
+
+# change mu
+mu <- 50
+for(i in 1:NMC){
+  x <- rnorm(n, mu, sigma)
+  s2 <- var(x)
+  xbar <- mean(x)
+  LL <- xbar + qt(alpha/2, n-1)*sqrt(s2/n)
+  UL <- xbar + qt(1-alpha/2, n-1)*sqrt(s2/n)
+  width[i] <- abs(UL-LL)
+}
+
+mean(width)
+# the change of the mu will not affect the width of interval change.
+```

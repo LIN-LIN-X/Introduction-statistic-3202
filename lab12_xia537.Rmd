@@ -1,0 +1,107 @@
+---
+title: "Lab12"
+author: "Linlin Xia"
+date: "4/21/2020"
+output: html_document
+---
+
+Review 1
+a)
+```{r}
+apgar1 <- c(8, 7, 6, 2, 5, 8, 7, 3) 
+apgar2 <- c(9, 9, 7, 8, 10, 8, 6)
+apgar <- c(apgar1, apgar2)
+
+B <- 5000
+xbar_storage <- rep(NA,B)
+sd_storage <- rep(NA,B)
+
+for(i in 1:B){
+  apgar_boot <- sample(apgar, size=length(apgar), replace=TRUE)
+  xbar_storage[i] <- mean(apgar_boot)
+  sd_storage[i] <- sd(apgar_boot)
+}
+
+hist(xbar_storage,main = "Histogram of Bootstrap Sampling Distribution of Mean")
+hist(sd_storage, main = "Histogram of Bootstrap Sampling Distribution of sd")
+
+quantile(xbar_storage,c(0.025, 0.975))
+quantile(sd_storage,c(0.025, 0.975))
+```
+
+b)
+```{r}
+apgar1 <- c(8, 7, 6, 2, 5, 8, 7, 3) 
+apgar2 <- c(9, 9, 7, 8, 10, 8, 6)
+n1 = 8
+n2 = 7
+
+NMC <- 5000
+Ustorage <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  scores1 <- sample(apgar1, size=length(apgar1), replace=TRUE)
+  scores2 <-sample(apgar2, size=length(apgar2), replace=TRUE)
+  scores <- data.frame("Method"=c(rep("1",n1),rep("2",n2)), "Score"=c(scores1, scores2))
+  ranks <- rank(scores$Score)
+  scores$Ranks <- ranks
+  R1 <- sum(scores$Ranks[scores$Method=="1"])
+  R2 <- sum(scores$Ranks[scores$Method=="2"])
+  U1 <- n1*n2 + n1*(n1+1)/2 - R1
+  U2 <- n1*n2 + n2*(n2+1)/2 - R2
+  U <- min(U1,U2)
+  Ustorage[i] <- U
+}
+
+
+quantile(Ustorage,c(0.025, 0.975))
+hist(Ustorage, main = "Histogram of Bootstrap Sampling Distribution of U")
+```
+
+Review 2
+```{r}
+NMC <- 5000
+x <- rep(NA, NMC)
+lambda <- 6.2
+
+xbars <- rep(NA, NMC)
+s2 <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  x[i] <- rpois(1,lambda)
+  xbars[i] <- sum(x[1:i])/i
+  s2[i] <- var(x[1:i])
+}
+
+plot(xbars)
+abline(h=lambda, col="red")
+plot(s2)
+abline(h=lambda, col="red")
+
+```
+
+Review 3
+```{r}
+pA <- 0.5
+pB <- 0.4
+
+nA <- 50
+nB <- 50
+n <- 8
+
+alpha <- 0.24
+NMC <- 5000
+pvalue <- rep(NA, NMC)
+
+for(i in 1:NMC){
+  a <- rbinom(n,nA,pA) #for A and B
+  b <- rbinom(n,nB,pB)
+  sa <- sum(a)/(n*nA)
+  sb <- sum(b)/(n*nB)
+  zobs <- (sa-sb)/sqrt(sa*(1-sa)/nA+sb*(1-sb)/nB)
+  pvalue[i] <- pnorm(zobs, 0, 1, lower.tail = FALSE)
+}
+
+mean(pvalue < alpha)
+hist(pvalue)
+```
